@@ -1,0 +1,134 @@
+﻿@model CustomerWebApp.Models.RoomSearchModel
+
+@{
+    ViewData["Title"] = "Rooms";
+}
+<h1>Book a Room</h1>
+
+   <form asp-action="Index">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+              <div class="col-md-4">
+                 <div class="form-group m-3">
+                <label asp-for="RoomLayout" class="control-label">Layout</label>
+                @Html.DropDownListFor(model => model.RoomLayout,Model.RoomLayoutList as SelectList,  new { @class = "form-control"} ) 
+                </div>
+              <div class="form-group m-3">
+              <label asp-for="RoomOccupancy" class="control-label">Occupancy</label>
+                @Html.DropDownListFor(model => model.RoomOccupancy,Model.RoomOccupancyList as SelectList,  new { @class = "form-control"} ) 
+            </div>
+          <div class="form-group m-3">
+                        <p>
+                      <label for="bedsnum">Beds:</label>
+                      <input type="text" id="bedsnum" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                         <input type="hidden" id="bedsMax" asp-for="BedsMax" />
+                         <input type="hidden" id="bedsMin" asp-for="BedsMin" />
+                    </p>
+ 
+                    <div id="slider-range-beds"></div>
+            </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group m-3">
+                 <label asp-for="StartOn" class="control-label">Starts On</label>
+                <input asp-for="StartOn" class="form-control" />
+                <span asp-validation-for="StartOn" class="text-danger"></span>
+            </div>
+            <div class="form-group m-3">
+                <label asp-for="EndOn" class="control-label">Ends On</label>
+                <input asp-for="EndOn" class="form-control"  />
+                <span asp-validation-for="EndOn" class="text-danger"></span>
+            </div>
+                <div class="form-group m-3">
+               <p>
+                      <label for="amount">Price range:</label>
+                      <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                         <input type="hidden" id="pricemax" asp-for="PriceMax" />
+                         <input type="hidden" id="pricemin" asp-for="PriceMin" />
+                    </p>
+ 
+                    <div id="slider-range"></div>
+
+               
+            </div>
+            </div>
+            </div>
+
+        
+          <div class="row">
+               <div class="form-group m-3">
+                <input type="submit" value="Find Rooms" class="btn btn-primary" />
+            </div>
+          </div>
+           
+        </form>
+        <br />
+
+<div class="row">
+    @if(Model.SearchResults.Count!=0)
+    {
+        <h2>Avilable Rooms </h2>
+          @foreach (var item in Model.SearchResults) {
+    <div class="col-md-4 col-sm-12">
+        <div class="card mb-3"  >
+          <div class="card-body">
+            <h5 class="card-title">Room Details</h5>
+            <p class="card-text"  >
+                <table>
+                    <tr> <td><b>Occupancy&nbsp;</b></td><td>@item.Occupancy</td> </tr>
+                    <tr> <td><b>Layout&nbsp;</b></td><td>@item.Layout</td> </tr>
+                    <tr> <td><b>Beds&nbsp;</b></td><td>@item.Beds</td> </tr>
+                    <tr> <td><b>Price&nbsp;</b></td><td>@item.Price</td> </tr>
+
+                </table>
+                
+                </p>
+           <a  class="btn btn-primary" href="@Url.Action("Book", "Room", new { id = @item.RoomId, start = Model.StartOn, end = Model.EndOn})" >
+                      Book
+                </a>
+          </div>
+        </div>
+    </div>
+        }
+    } 
+    else
+    {
+          <h3>No Results, Change filters to see results </h3>
+    }
+
+ </div>
+   
+  <script>
+
+  $( function() {
+    $( "#slider-range" ).slider({
+      range: true,
+      min: 200,
+      max: 800,
+      values: [ @Model.PriceMin,@Model.PriceMax ],
+      slide: function( event, ui ) {
+        $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+          $( "#pricemin" ).val( ui.values[ 0 ] );
+              $( "#pricemax" ).val( ui.values[ 1 ] );
+      }
+    });
+    $( "#amount" ).val( "$" + $( "#slider-range" ).slider( "values", 0 ) +
+      " - $" + $( "#slider-range" ).slider( "values", 1 ) );
+  } );
+
+   $( function() {
+    $( "#slider-range-beds" ).slider({
+      range: true,
+      min: 1,
+      max: 8,
+      values: [ @Model.BedsMin,@Model.BedsMax ],
+      slide: function( event, ui ) {
+        $( "#bedsnum" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+          $( "#bedsMax" ).val( ui.values[ 1 ] );
+             $( "#bedsMin" ).val( ui.values[ 0 ] );
+      }
+    });
+    $( "#bedsnum" ).val( $( "#slider-range-beds" ).slider( "values", 0 ) + " - " + $( "#slider-range-beds" ).slider( "values", 1 ) );
+  } );
+
+  </script>

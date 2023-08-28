@@ -1,0 +1,40 @@
+﻿<Window x:Class="WorkerApp.TasksWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkerApp"
+        mc:Ignorable="d"
+        Title="TasksWindow" Height="659" Width="806">
+    <Grid Margin="0,0,0,36">
+        <ListView x:Name="lvTasks" ItemsSource="{Binding}" Margin="30,90,30,0" Height="219" VerticalAlignment="Top">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns >
+                        <GridViewColumn  Width="100" Header="Room Number" DisplayMemberBinding="{Binding Path=RoomNumber}" />
+                        <GridViewColumn  Width="100" Header="Request Date" DisplayMemberBinding="{Binding Path=RequestDate}" />
+                        <GridViewColumn  Width="150" Header="Status" DisplayMemberBinding="{Binding Path=Status}" />
+                        <GridViewColumn Width="150"  Header="Notes" DisplayMemberBinding="{Binding Path=Notes}" />
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Label x:Name="lblType" Content="Label" HorizontalAlignment="Left" Margin="108,39,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnReload" Content="Refresh" HorizontalAlignment="Left" Margin="334,39,0,0" VerticalAlignment="Top" Click="btnReload_Click" Height="26" Width="66"/>
+        <Button x:Name="btnUpdate" Content="Take task" HorizontalAlignment="Left" Margin="430,42,0,0" VerticalAlignment="Top" Width="130" Click="btnUpdate_Click"/>
+        <ListView x:Name="lvMyTasks"  ItemsSource="{Binding}" Margin="30,365,30,0" Height="214" VerticalAlignment="Top">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn  Width="100" Header="Room Number" DisplayMemberBinding="{Binding Path=RoomNumber}" />
+                    <GridViewColumn  Width="100" Header="Request Date" DisplayMemberBinding="{Binding Path=RequestDate}" />
+                    <GridViewColumn  Width="150" Header="Status" DisplayMemberBinding="{Binding Path=Status}" />
+                    <GridViewColumn Width="150"  Header="Notes" DisplayMemberBinding="{Binding Path=Notes}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Button x:Name="btnComplete" Content="Set as Completed" HorizontalAlignment="Left" Margin="30,329,0,0" VerticalAlignment="Top" Width="141" Click="Button_Click"/>
+        <Button x:Name="btnAddNote" Content="Update Notes" HorizontalAlignment="Left" Margin="201,329,0,0" VerticalAlignment="Top" Click="btnAddNote_Click" Width="83"/>
+
+    </Grid>
+
+</Window>

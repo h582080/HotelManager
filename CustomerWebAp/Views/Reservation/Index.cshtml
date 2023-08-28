@@ -1,0 +1,35 @@
+﻿@model IEnumerable<BLL.Models.Reservation>
+
+
+
+@{
+    ViewData["Title"] = "My Reservations";
+}
+
+<h1>My Reservations</h1>
+
+<table class="table">
+      <thead>
+    <tr>
+    <th>Status</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Checked In/Out</th>
+   
+  </tr>
+     </thead>
+      <tbody>
+   @foreach (var item in Model) {
+        <tr>
+             <td>@item.Status</td>
+            <td>@item.StartOn.Value.ToString("dd/MM/yyyy")</td>
+            <td>@item.EndOn.Value.ToString("dd/MM/yyyy")</td>
+               
+            @if (item.CheckedIn.Value==true) { <td>Checked In</td>} 
+            else if  (item.Status== "Finished") { <td>Checked Out</td>} 
+            else { <td>NA</td>}
+       </tr>
+
+ }
+    </tbody>
+</table>

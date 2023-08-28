@@ -1,0 +1,56 @@
+﻿@model CustomerWebApp.Models.RoomReservationViewModel
+
+
+@{
+    ViewData["Title"] = "Room Reservation";
+}
+
+<h1>Room Reservation</h1>
+
+<h4>Room Details</h4>
+
+ <table>
+    <tr> <td><b>Occupancy&nbsp;</b></td><td>@Model.Occupancy</td> </tr>
+    <tr> <td><b>Layout&nbsp;</b></td><td>@Model.Layout</td> </tr>
+    <tr> <td><b>Beds&nbsp;</b></td><td>@Model.Beds</td> </tr>
+    <tr> <td><b>Price&nbsp;</b></td><td>@Model.Price</td> </tr>
+ </table>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="RoomId" />
+             <input type="hidden" asp-for="CustomerId" />
+              <input type="hidden" asp-for="Occupancy" value="@Model.Occupancy" />
+             <input type="hidden" asp-for="Layout" value="@Model.Layout" />
+               <input type="hidden" asp-for="Beds" value="@Model.Beds" />
+               <input type="hidden" asp-for="Price" value="@Model.Price"/>
+ 
+
+            <div class="form-group">
+                <label asp-for="StartOn" class="control-label"></label>
+                <input asp-for="StartOn" type="date" class="form-control"   />
+                <span asp-validation-for="StartOn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndOn" class="control-label"></label>
+                <input asp-for="EndOn" class="form-control" />
+                <span asp-validation-for="EndOn" class="text-danger"></span>
+            </div>
+          
+            <div class="form-group mr-3 mt-3">
+                <input type="submit" value="Confirm Reservation" class="btn btn-primary" />
+                  <a  type="button" href="@Url.Action("Index", "Room")"  class="btn btn-secondary">Cancel</a>
+            </div>
+             <div class="form-group m-3">
+                        <div class="row" style="color:red;">@ViewBag.Errors</div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
